@@ -66,6 +66,16 @@ namespace HomelessAnimals.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation("Get list of animals in current city")]
+        [SwaggerResponse(StatusCodes.Status200OK, type: typeof(List<Animal>))]
+        public async Task<IActionResult> GetAnimalsByCity(int cityId)
+        {
+            var animals = await _animalService.GetAnimalsByCity(cityId);
+
+            return Ok(_mapper.Map<PagedResult<Animal>>(animals));
+        }
+
+        [HttpGet]
         [Route("{id}")]
         [SwaggerOperation("Get animal")]
         [SwaggerResponse(StatusCodes.Status200OK, type: typeof(Animal))]

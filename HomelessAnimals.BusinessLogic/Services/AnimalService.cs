@@ -142,7 +142,7 @@ namespace HomelessAnimals.BusinessLogic.Services
 
         public async Task<Animal> GetAnimal(int id)
         {
-            var options = new AnimalQueryOptions { AsNoTracking = true, IncludeVolunteerProfile = true };
+            var options = new AnimalQueryOptions { AsNoTracking = true, IncludeVolunteerProfile = true, IncludeCity = true };
             var result = await _dataFactory.AnimalProfileRepository.GetAnimalProfile(id, options)
                 ?? throw new NotFoundException("Tournament could not be found");
 
@@ -152,6 +152,15 @@ namespace HomelessAnimals.BusinessLogic.Services
             animalProfile.AnimalAdmins = animalAdmins.Select(a => a.Id).ToArray();
 
             return animalProfile;
+        }
+
+        public async Task<List<Animal>> GetAnimalsByCity(int cityId)
+        {
+            var options = new AnimalQueryOptions { AsNoTracking = true, IncludeCity = true };
+            var result = await _dataFactory.AnimalProfileRepository.GetAnimalsByCity(cityId, options)
+                ?? throw new NotFoundException($"Could not find animals in this city");
+
+            return _mapper.Map<List<Animal>>(result);
         }
 
         public async Task<PagedResult<Animal>> GetAnimals(GetAnimalsQueryParams queryParams)

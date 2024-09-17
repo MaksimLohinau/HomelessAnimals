@@ -1,5 +1,6 @@
 ﻿using HomelessAnimals.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 using System.Numerics;
 
 
@@ -50,7 +51,11 @@ namespace HomelessAnimals.DataAccess
 
             modelBuilder.Entity<Scope>()
                 .Property(x => x.Level)
-                .HasConversion<string>();
+            .HasConversion<string>();
+
+            modelBuilder.Entity<City>()
+                .HasMany<Animal>()
+                .WithOne(x => x.City);
 
             modelBuilder.Entity<PasswordResetToken>()
                .HasKey(x => new { x.AccountId, x.Token });

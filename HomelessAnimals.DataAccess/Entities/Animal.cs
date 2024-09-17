@@ -14,5 +14,7 @@
         public byte[] Image { get; set; }
         public int VolunteerId { get; set; }
         public Volunteer Volunteer { get; set; }
+        public City City { get; set; }
+        public int? CityId { get; set; }
     }
 }

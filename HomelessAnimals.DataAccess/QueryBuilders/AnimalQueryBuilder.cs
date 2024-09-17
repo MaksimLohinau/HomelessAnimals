@@ -19,6 +19,14 @@ namespace HomelessAnimals.DataAccess.QueryBuilders
             return this;
         }
 
+        public AnimalQueryBuilder IncludeCity(bool includeCity)
+        {
+            if (includeCity)
+                _query = _query.Include(x => x.City);
+
+            return this;
+        }
+
         public AnimalQueryBuilder AsNoTracking(bool asNoTracking)
         {
             if (asNoTracking)

@@ -12,5 +12,6 @@ namespace HomelessAnimals.BusinessLogic.Interfaces
         Task EditAnimalAdmins(int animalProfileId, int[] adminsIds);
         Task<Animal> GetAnimal(int id);
         Task<PagedResult<Animal>> GetAnimals(GetAnimalsQueryParams queryOptions);
+        Task<List<Animal>> GetAnimalsByCity(int cityId);
     }
 }

@@ -13,26 +13,36 @@ namespace HomelessAnimals.DataAccess.Repositories
     public class AnimalRepository : IAnimalProfileRepository
     {
         private readonly HomelessAnimalsContext _context;
+
         public AnimalRepository(HomelessAnimalsContext context)
         {
             _context = context;
         }
+
         public void CreateAnimalProfile(Animal animalProfile)
         {
             _context.Animals.Add(animalProfile);
         }
+
         public async Task<Animal> GetAnimalProfile(int id, AnimalQueryOptions queryOptions)
         {
             var query = new AnimalQueryBuilder(_context.Animals)
                 .IncludeVolunteerProfile(queryOptions.IncludeVolunteerProfile)
+                .IncludeCity(queryOptions.IncludeCity)
                 .AsNoTracking(queryOptions.AsNoTracking)
                 .Build();
 
             return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
+
         public async Task<List<Animal>> GetAnimals(AnimalQueryOptions queryOptions)
         {
             return await BuildGetAnimalProfileQuery(queryOptions).ToListAsync();
+        }
+
+        public async Task<List<Animal>> GetAnimalsByCity(int cityId,AnimalQueryOptions queryOptions)
+        {
+            return  await BuildGetAnimalProfileQuery(queryOptions).Where(x => x.CityId == cityId).ToListAsync();
         }
 
         public async Task<Shared.Models.PagedResult<Animal>> GetPaginatedAnimals(AnimalsQueryOptions queryOptions)
